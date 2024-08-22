@@ -5,23 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Habit Seed</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             text-align: center;
             padding: 20px;
+            background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
+            color: #333;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            color: #4a90e2;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         #plant {
-            font-size: 100px;
-            margin: 20px 0;
+            font-size: 120px;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            animation: grow 2s infinite alternate;
+        }
+        @keyframes grow {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
         }
         #progress {
             font-size: 18px;
             margin-bottom: 20px;
+            color: #666;
         }
         button {
             font-size: 16px;
-            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 20px; }
+            #plant { font-size: 80px; }
+            button { padding: 10px 20px; }
         }
     </style>
 </head>
@@ -61,6 +95,19 @@
                 plantElement.textContent = plants[2];
             }
         }
+
+        // Загрузка сохраненного прогресса
+        if (localStorage.getItem('habitDay')) {
+            day = parseInt(localStorage.getItem('habitDay'));
+            updateUI();
+        }
+
+        // Сохранение прогресса
+        function saveProgress() {
+            localStorage.setItem('habitDay', day);
+        }
+
+        checkInButton.addEventListener('click', saveProgress);
     </script>
 </body>
 </html>
