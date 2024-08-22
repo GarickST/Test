@@ -3,20 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моё первое Telegram Mini App для педика Миши</title>
+    <title>Habit Seed</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #plant {
+            font-size: 100px;
+            margin: 20px 0;
+        }
+        #progress {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Привет, ты тот педик Миша?</h1>
-    <button id="myButton">Ха-ха, ты педик!</button>
+    <h1>Habit Seed</h1>
+    <div id="plant">🌱</div>
+    <div id="progress">День 1 из 21</div>
+    <button id="checkInButton">Отметить выполнение</button>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        document.getElementById('myButton').addEventListener('click', function() {
-            tg.showAlert('Вы нажали кнопку!');
+        let day = 1;
+        const plants = ['🌱', '🌿', '🌳'];
+        const checkInButton = document.getElementById('checkInButton');
+        const plantElement = document.getElementById('plant');
+        const progressElement = document.getElementById('progress');
+
+        checkInButton.addEventListener('click', function() {
+            if (day < 21) {
+                day++;
+                updateUI();
+                tg.showAlert('Отлично! Продолжайте в том же духе!');
+            } else {
+                tg.showAlert('Поздравляем! Вы сформировали привычку!');
+            }
         });
+
+        function updateUI() {
+            progressElement.textContent = `День ${day} из 21`;
+            if (day <= 7) {
+                plantElement.textContent = plants[0];
+            } else if (day <= 14) {
+                plantElement.textContent = plants[1];
+            } else {
+                plantElement.textContent = plants[2];
+            }
+        }
     </script>
 </body>
 </html>
